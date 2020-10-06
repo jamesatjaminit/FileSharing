@@ -34,7 +34,10 @@ def main(request):
             tempfile = open(BaseName + filename, "w")
             tempfile.write(form.data['text'])
             tempfile.close()
-            fileDB = File(name=filename, location=BaseName + filename, description=form.data['description'])
+            if request.user.is_authenticated:
+                fileDB = File(name=filename, location=BaseName + filename, description=form.data['description'], belongsto=request.user.id)
+            else:
+                fileDB = File(name=filename, location=BaseName + filename, description=form.data['description'])
             fileDB.save()
             return HttpResponseRedirect("/files/f/" + filename)
         else:

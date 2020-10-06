@@ -16,32 +16,14 @@
     </script>
     <nav class="navbar navbar-light bg-light">
         <a class="navbar-brand" href="//127.0.0.1:8000/files">JamInIT</a>
-        <a href="http://127.0.0.1:8000/files/dashboard">Dashboard</a>
     </nav><br>
-</head>
-    <body>
-        <div class="container">
-            <div class="jumbotron">
-                <h3>Text uploader:</h3>
-                {% if form.errors %}
-                    {% for field in form %}
-                        {% for error in field.errors %}
-                            <div class="alert alert-danger">
-                                <strong>{{ error|escape }}</strong>
-                            </div>
-                        {% endfor %}
-                    {% endfor %}
-                    {% for error in form.non_field_errors %}
-                        <div class="alert alert-danger">
-                            <strong>{{ error|escape }}</strong>
-                        </div>
-                    {% endfor %}
-                {% endif %}
-                <form action="" method="post">{% csrf_token %}
-                    {{form.as_p}}<br>
-                    <input type="submit" value="Submit" class="btn btn-primary">
-                </form>
-            </div>
+    <div class="container">
+        <div class="jumbotron">
+            <form action="" method="post">{% csrf_token %}
+                {{form.as_p}}<br>
+                <input type="submit" value="Submit" class="btn btn-primary">
+            </form>
         </div>
-    </body>
-</html>
+        
+    </div>
+    
