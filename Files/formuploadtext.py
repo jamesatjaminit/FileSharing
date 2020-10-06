@@ -5,6 +5,7 @@ from django.views.decorators.csrf import csrf_protect
 from django.shortcuts import render
 from django.template import RequestContext
 from django.http import HttpResponseRedirect
+from Files.models import File
 import random
 import os.path
 from os import path
@@ -33,6 +34,8 @@ def main(request):
             tempfile = open(BaseName + filename, "w")
             tempfile.write(form.data['text'])
             tempfile.close()
+            fileDB = File(name=filename, location=BaseName + filename, description=form.data['description'])
+            fileDB.save()
             return HttpResponseRedirect("/files/f/" + filename)
         else:
             print(form._errors)

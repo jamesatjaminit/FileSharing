@@ -6,4 +6,5 @@ class File(models.Model):
     name = models.CharField(max_length=100)
     location = models.CharField(max_length=200)
     belongsto = models.IntegerField(default=0)
-    visibility = models.CharField(max_length=100)
+    visibility = models.CharField(max_length=100, default="private")
+    description = models.CharField(max_length=200, default="N/A")
