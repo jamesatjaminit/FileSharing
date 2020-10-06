@@ -5,4 +5,4 @@ import Files.renderfile, Files.formuploadtext
 def index(request):
     return Files.formuploadtext.main(request)
 def File(request, filename):
-    return(Files.renderfile.renderFile(filename))
+    return(Files.renderfile.renderFile(request, filename))

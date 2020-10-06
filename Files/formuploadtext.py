@@ -4,7 +4,10 @@ from django.template.loader import render_to_string
 from django.views.decorators.csrf import csrf_protect
 from django.shortcuts import render
 from django.template import RequestContext
+from django.http import HttpResponseRedirect
 import random
+import os.path
+from os import path
 def randomstring():
     random_string = ''
     for _ in range(30):
@@ -23,7 +26,14 @@ def main(request):
     if request.method == 'POST':
         form = TextForm(request.POST)
         if form.is_valid:
-            print(randomstring())
+            filename = randomstring()
+            BaseName = "Files/Uploads/"
+            while path.exists(BaseName + filename):
+                filename = randomstring()
+            tempfile = open(BaseName + filename, "w")
+            tempfile.write(form.data['text'])
+            tempfile.close()
+            return HttpResponseRedirect("/files/f/" + filename)
         else:
             print(form._errors)
     elif request.method == 'GET':
