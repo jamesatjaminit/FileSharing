@@ -9,6 +9,7 @@ class AuthForm(forms.Form):
 def main(request):
     if request.path == '/files/logout':
         logout(request)
+        return(HttpResponseRedirect("http://127.0.0.1:8000/files/dashboard"))
     else:
         if not request.user.is_authenticated:
             if request.method == 'POST':
