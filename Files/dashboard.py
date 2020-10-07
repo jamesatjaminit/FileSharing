@@ -13,6 +13,6 @@ def main(request):
     if request.user.is_authenticated:
         result = File.objects.filter(belongsto=request.user.id)
         # result[0].description
-        return(render(request, "dashboard.html", {'entries': result}))
+        return render(request, "dashboard.html", {"entries": result})
     else:
-        return(HttpResponseRedirect('http://127.0.0.1:8000/files/login'))
+        return HttpResponseRedirect("http://127.0.0.1:8000/files/login")
