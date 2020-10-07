@@ -1,6 +1,12 @@
-from django.shortcuts import render
 from django.http import HttpResponse
-import Files.renderfile, Files.formuploadtext, Files.dashboard, Files.auth
+from django.shortcuts import render
+
+import Files.auth
+import Files.dashboard
+import Files.formuploadtext
+import Files.renderfile
+
+
 # Create your views here.
 def index(request):
     return Files.formuploadtext.main(request)

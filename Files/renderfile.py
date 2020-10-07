@@ -1,5 +1,7 @@
-from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseNotFound
+from django.shortcuts import render
+
+
 def renderFile(request, filename):
     try:
         file = open(r"D:\Projects\Mine\FileSharing\Files\Uploads\\" + filename)

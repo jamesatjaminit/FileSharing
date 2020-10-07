@@ -1,14 +1,18 @@
+import os.path
+import random
+from os import path
+
 import django.http
 from django import forms
-from django.template.loader import render_to_string
-from django.views.decorators.csrf import csrf_protect
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.template import RequestContext
-from django.http import HttpResponseRedirect
+from django.template.loader import render_to_string
+from django.views.decorators.csrf import csrf_protect
+
 from Files.models import File
-import random
-import os.path
-from os import path
+
+
 def randomstring():
     random_string = ''
     for _ in range(30):

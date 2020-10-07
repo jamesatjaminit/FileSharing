@@ -1,11 +1,14 @@
 import django.http
 from django import forms
-from django.template.loader import render_to_string
-from django.views.decorators.csrf import csrf_protect
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.template import RequestContext
-from django.http import HttpResponseRedirect
+from django.template.loader import render_to_string
+from django.views.decorators.csrf import csrf_protect
+
 from Files.models import File
+
+
 def main(request):
     if request.user.is_authenticated:
         result = File.objects.filter(belongsto=request.user.id)

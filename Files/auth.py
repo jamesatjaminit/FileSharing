@@ -1,7 +1,8 @@
-from django.contrib.auth import authenticate, login, logout
 from django import forms
-from django.shortcuts import render
+from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect
+from django.shortcuts import render
+
 
 class AuthForm(forms.Form):
     username = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}), label='Username', required=True)
