@@ -9,18 +9,19 @@ class AuthForm(forms.Form):
 def main(request):
     if request.path == '/files/logout':
         logout(request)
-    if not request.user.is_authenticated:
-        if request.method == 'POST':
-            form = AuthForm(request.POST)
-            if form.is_valid:
-                user = authenticate(request, username=form.data['username'], password=form.data['password'])
-                if user is not None:
-                    login(request, user)
-                    return(HttpResponseRedirect("http://127.0.0.1:8000/files/dashboard"))
-                else:
-                    print("Go away")
-        elif request.method == 'GET':
-            form = AuthForm()
-        return(render(request, "auth.html", {'form': form}))
     else:
-        return(HttpResponseRedirect("http://127.0.0.1:8000/files/dashboard"))
+        if not request.user.is_authenticated:
+            if request.method == 'POST':
+                form = AuthForm(request.POST)
+                if form.is_valid:
+                    user = authenticate(request, username=form.data['username'], password=form.data['password'])
+                    if user is not None:
+                        login(request, user)
+                        return(HttpResponseRedirect("http://127.0.0.1:8000/files/dashboard"))
+                    else:
+                        print("Go away")
+            elif request.method == 'GET':
+                form = AuthForm()
+            return(render(request, "auth.html", {'form': form}))
+        else:
+            return(HttpResponseRedirect("http://127.0.0.1:8000/files/dashboard"))
