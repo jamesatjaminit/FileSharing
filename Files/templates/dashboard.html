@@ -24,7 +24,7 @@
             {% for field in entries %}
             <div class="jumbotron">
                 <p>Name: {{field.name}}</p>
-                <p>Description {{field.description}}</p>
+                <p>Description: {{field.description}}</p>
                 <p>Link: <a href="http://127.0.0.1:8000/files/f/{{field.name}}">http://127.0.0.1:8000/files/f/{{field.name}}</a></p>
             </div>
             {% endfor %}
