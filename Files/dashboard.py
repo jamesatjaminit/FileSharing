@@ -1,11 +1,12 @@
 import django.http
 from django import forms
+from django.core.paginator import Paginator
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.template import RequestContext
 from django.template.loader import render_to_string
 from django.views.decorators.csrf import csrf_protect
-from django.core.paginator import Paginator
+
 from Files.models import File
 
 

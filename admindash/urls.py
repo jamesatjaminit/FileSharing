@@ -1,5 +1,6 @@
-from admindash.views import text
 from django.urls import path
+
+from admindash.views import text
 
 from . import views
 
