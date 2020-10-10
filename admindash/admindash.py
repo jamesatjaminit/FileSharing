@@ -32,6 +32,10 @@ def deletetext(request):
             object = File.objects.get(id=fieldid)
         except Files.models.File.DoesNotExist:
             return(HttpResponse("Could not find item matching id in database"))
-        os.remove(r'D:\Projects\Mine\FileSharing\Files\Uploads\\' + object.name)
+        try:
+            os.remove(r'D:\Projects\Mine\FileSharing\Files\Uploads\\' + object.name)
+        except FileNotFoundError:
+            object.delete()
+            return("Couldn't delete file on disk, deleted database entry")
         object.delete()
-        return(HttpResponse("Done!"))
+        return(HttpResponse("Successfully deleted file!"))
