@@ -1,8 +1,10 @@
+import os
+
 from django import forms
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
-import os
+
 
 class AuthForm(forms.Form):
     username = forms.CharField(

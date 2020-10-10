@@ -1,3 +1,5 @@
+import os
+
 import django.http
 from django import forms
 from django.core.paginator import Paginator
@@ -6,7 +8,7 @@ from django.shortcuts import render
 from django.template import RequestContext
 from django.template.loader import render_to_string
 from django.views.decorators.csrf import csrf_protect
-import os
+
 from Files.models import File
 
 

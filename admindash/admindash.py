@@ -8,8 +8,10 @@ from django.shortcuts import render
 from django.template import RequestContext
 from django.template.loader import render_to_string
 from django.views.decorators.csrf import csrf_protect
+
 import Files
 from Files.models import File
+
 
 def text(request):
     if request.user.is_staff:

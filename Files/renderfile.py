@@ -1,6 +1,8 @@
+import os
+
 from django.http import HttpResponse, HttpResponseNotFound
 from django.shortcuts import render
-import os
+
 
 def renderFile(request, filename):
     try:
