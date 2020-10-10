@@ -15,3 +15,6 @@ python manage.py migrate
 ```shell
 python manage.py createsuperuser
 ```
+6) Rename .env.default to .env and populate the fields
+7) Run ```python manage.py runserver``` to get your webserver working!
+8) Browse to [127.0.0.1:8000](http://127.0.0.1:8000)
