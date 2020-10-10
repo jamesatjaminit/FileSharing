@@ -71,4 +71,4 @@ def main(request):
             print(form._errors)
     elif request.method == "GET":
         form = TextForm()
-    return render(request, "text.html", {"form": form})
+    return render(request, "text.html", {"form": form, "hostname": os.getenv("HOSTNAME")})

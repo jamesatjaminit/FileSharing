@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
-
+import os
 
 class AuthForm(forms.Form):
     username = forms.CharField(
@@ -20,7 +20,7 @@ class AuthForm(forms.Form):
 def main(request):
     if request.path == "/files/logout":
         logout(request)
-        return HttpResponseRedirect("http://127.0.0.1:8000/files/dashboard")
+        return HttpResponseRedirect(os.getenv("HOSTNAME") + "/files/dashboard")
     else:
         if not request.user.is_authenticated:
             if request.method == "POST":
@@ -33,13 +33,11 @@ def main(request):
                     )
                     if user is not None:
                         login(request, user)
-                        return HttpResponseRedirect(
-                            "http://127.0.0.1:8000/files/dashboard"
-                        )
+                        return HttpResponseRedirect(os.getenv("HOSTNAME") + "/files/dashboard")
                     else:
                         print("Go away")
             elif request.method == "GET":
                 form = AuthForm()
-            return render(request, "auth.html", {"form": form})
+            return render(request, "auth.html", {"form": form, "hostname": os.getenv("HOSTNAME")})
         else:
-            return HttpResponseRedirect("http://127.0.0.1:8000/files/dashboard")
+            return HttpResponseRedirect(os.getenv("HOSTNAME") + "/files/dashboard")

@@ -16,7 +16,7 @@
     </script>
     
     <nav class="navbar navbar-light bg-light">
-        <a class="navbar-brand" href="//127.0.0.1:8000/files">JamInIT</a>
+        <a class="navbar-brand" href="//{{hostname}}/files">JamInIT</a>
     </nav><br>
 </head>
     <body>
@@ -28,7 +28,7 @@
                 <p>Description: {{field.description}}</p>
                 <p>Belongs to: {{field.belongsto}}</p>
                 <p>Visibilty: {{field.visibility}}</p>
-                <p>Link: <a href="/files/f/{{field.name}}">http://127.0.0.1:8000/files/f/{{field.name}}</a></p>
+                <p>Link: <a href="/files/f/{{field.name}}">{{hostname}}/files/f/{{field.name}}</a></p>
                 <p><a href="/dash/deletetext?id={{field.id}}">DELETE PASTE</a></p>
             </div>
             {% endfor %}

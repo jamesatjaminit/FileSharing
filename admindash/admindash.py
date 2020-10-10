@@ -18,11 +18,11 @@ def text(request):
         page_number = request.GET.get('page')
         page_obj = paginator.get_page(page_number)
         # result[0].description
-        return render(request, "textadmin.html", {"entries": result, 'page_obj': page_obj})
+        return render(request, "textadmin.html", {"entries": result, 'page_obj': page_obj, "hostname": os.getenv("HOSTNAME")})
     elif not request.user.is_authenticated:
-        return HttpResponseRedirect("http://127.0.0.1:8000/files/login")
+        return HttpResponseRedirect(os.getenv("HOSTNAME") + "/files/login")
     else:
-        return HttpResponseRedirect("http://127.0.0.1:8000/files/")
+        return HttpResponseRedirect(os.getenv("HOSTNAME") + "/files/")
 def deletetext(request):
     if request.user.is_staff:
         fieldid = request.GET.get('id')
