@@ -18,7 +18,7 @@ def text(request):
         page_number = request.GET.get('page')
         page_obj = paginator.get_page(page_number)
         # result[0].description
-        return render(request, "admin.html", {"entries": result, 'page_obj': page_obj})
+        return render(request, "textadmin.html", {"entries": result, 'page_obj': page_obj})
     elif not request.user.is_authenticated:
         return HttpResponseRedirect("http://127.0.0.1:8000/files/login")
     else:
@@ -36,6 +36,6 @@ def deletetext(request):
             os.remove(r'D:\Projects\Mine\FileSharing\Files\Uploads\\' + object.name)
         except FileNotFoundError:
             object.delete()
-            return("Couldn't delete file on disk, deleted database entry")
+            return(HttpResponse("Couldn't delete file on disk, deleted database entry"))
         object.delete()
         return(HttpResponse("Successfully deleted file!"))
