@@ -11,6 +11,7 @@
 python manage.py makemigrations
 python manage.py migrate
 ```
-5) (Optional) Make superuser using ```shell
+5) (Optional) Make superuser using
+```shell
 python manage.py createsuperuser
 ```
