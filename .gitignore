@@ -140,3 +140,5 @@ cython_debug/
 # Upload folders
 Uploads/
 migrations/
+
+.env

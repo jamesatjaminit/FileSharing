@@ -8,10 +8,8 @@ from django.shortcuts import render
 from django.template import RequestContext
 from django.template.loader import render_to_string
 from django.views.decorators.csrf import csrf_protect
-
 import Files
 from Files.models import File
-
 
 def text(request):
     if request.user.is_staff:
@@ -28,6 +26,7 @@ def text(request):
 def deletetext(request):
     if request.user.is_staff:
         fieldid = request.GET.get('id')
+        print("Path: " + os.getenv("BASE_PATH"))
         if fieldid == '':
             return(HttpResponse("ID field in URL was blank"))
         try:
@@ -35,9 +34,10 @@ def deletetext(request):
         except Files.models.File.DoesNotExist:
             return(HttpResponse("Could not find item matching id in database"))
         try:
-            os.remove(r'D:\Projects\Mine\FileSharing\Files\Uploads\\' + object.name)
+            os.remove(os.getenv("BASE_PATH") + "files\\" + object.name)
         except FileNotFoundError:
             object.delete()
+            
             return(HttpResponse("Couldn't delete file on disk, deleted database entry"))
         object.delete()
         return(HttpResponse("Successfully deleted file!"))
