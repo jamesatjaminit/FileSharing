@@ -22,3 +22,6 @@ def dashboard(request):
 
 def auth(request):
     return Files.auth.main(request)
+
+def forbidden(request):
+    return render(request, "forbidden.html")

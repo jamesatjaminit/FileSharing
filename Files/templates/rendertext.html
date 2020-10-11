@@ -7,6 +7,14 @@
 <script>hljs.initHighlightingOnLoad();</script>
     <body>
         <div class="container">
+            {% if viewbecausestaff == True %}
+            <div class="alert alert-dismissible fade show alert-danger" role="alert">
+                Warning: You are not the owner of this file, you only can see it because you are staff.
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+            </div>
+            {% endif %}
             <pre><code>{{text}}</pre></code>
         </div>
     </body>

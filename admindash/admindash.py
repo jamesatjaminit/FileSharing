@@ -17,7 +17,7 @@ def index(request):
         numOfText = len(File.objects.filter(type="text"))
         return(render(request, "adminindex.html", {"hostname": os.getenv("HOSTNAME"), "request":request, "numOfFiles": numOfFiles, "numOfText":numOfText}))
     elif not request.user.is_authenticated:
-        return HttpResponseRedirect(os.getenv("HOSTNAME") + "/files/login?redirect=dash")
+        return HttpResponseRedirect(os.getenv("HOSTNAME") + "/files/login?redirect=dash&errorcode=0")
     else:
         return(HttpResponse(status=404))
 def text(request):
@@ -29,7 +29,7 @@ def text(request):
         # result[0].description
         return render(request, "textadmin.html", {"entries": result, 'page_obj': page_obj, "hostname": os.getenv("HOSTNAME"), "request":request})
     elif not request.user.is_authenticated:
-        return HttpResponseRedirect(os.getenv("HOSTNAME") + "/files/login?redirect=dash")
+        return HttpResponseRedirect(os.getenv("HOSTNAME") + "/files/login?redirect=dash&errorcode=0")
     else:
         return(HttpResponse(status=404))
 def deletetext(request):

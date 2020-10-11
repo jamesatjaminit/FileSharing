@@ -48,6 +48,13 @@ def main(request):
                             return HttpResponseRedirect(os.getenv("HOSTNAME"))
             elif request.method == "GET":
                 redirecturl = request.GET.get('redirect')
+                errorcode = request.GET.get('errorcode')
+                if errorcode == "0":
+                    errormessage = "You need to be authenticated to view that page, please login."
+                elif errorcode == "1":
+                    errormessage = "That is a private paste, if you have access, please login."
+                else:
+                    errormessage = ""
                 form = AuthForm()
-            return render(request, "auth.html", {"form": form, "hostname": os.getenv("HOSTNAME"), "request":request, 'redirecturl':redirecturl})
+            return render(request, "auth.html", {"form": form, "hostname": os.getenv("HOSTNAME"), "request":request, 'redirecturl':redirecturl, 'errormessage':errormessage})
             

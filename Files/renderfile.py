@@ -1,12 +1,26 @@
 import os
 
-from django.http import HttpResponse, HttpResponseNotFound
+from django.http import HttpResponse, HttpResponseNotFound, HttpResponseRedirect
 from django.shortcuts import render
-
+from Files.models import File
 
 def renderFile(request, filename):
+    file = File.objects.filter(name=filename)
+    if file[0].visibility == 'private':
+        if request.user.is_authenticated: 
+            if file[0].belongsto == request.user.id or request.user.is_staff: # User is the correct user, display the file
+                if not file[0].belongsto == request.user.id and request.user.is_staff:
+                    viewbecausestaff = True
+                else:
+                    viewbecausestaff = False
+                text = open(os.getenv("BASE_PATH") + r"Files\Uploads\\" + filename)
+                return render(request, "rendertext.html", {"text": text.read(), "hostname": os.getenv("HOSTNAME"), "request":request, 'viewbecausestaff':viewbecausestaff})
+            else:
+                return(HttpResponseRedirect(os.getenv("HOSTNAME") + "/files/forbidden?errorcode=1")) # User doesn't have access to paste
+        else:
+            return(HttpResponseRedirect(os.getenv("HOSTNAME") + "/files/login?redirect=files/f/" + filename + "&errorcode=1")) # User is logged in
     try:
-        file = open(os.getenv("BASE_PATH") + r"Files\Uploads\\" + filename)
-        return render(request, "rendertext.html", {"text": file.read(), "hostname": os.getenv("HOSTNAME"), "request":request})
+        text = open(os.getenv("BASE_PATH") + r"Files\Uploads\\" + filename)
+        return render(request, "rendertext.html", {"text": text.read(), "hostname": os.getenv("HOSTNAME"), "request":request})
     except FileNotFoundError:
         return HttpResponseNotFound("Whoops, we can't find that file")

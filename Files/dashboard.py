@@ -21,4 +21,4 @@ def main(request):
         # result[0].description
         return render(request, "dashboard.html", {"entries": result, 'page_obj': page_obj, "hostname": os.getenv("HOSTNAME"), "request":request})
     else:
-        return HttpResponseRedirect(os.getenv("HOSTNAME") + "/files/login?redirect=files/dashboard")
+        return HttpResponseRedirect(os.getenv("HOSTNAME") + "/files/login?redirect=files/dashboard&errorcode=0")
