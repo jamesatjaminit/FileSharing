@@ -40,18 +40,12 @@ def main(request):
                         password=form.data["password"],
                     )
                     if user is not None:
-                        print(request)
                         login(request, user)
                         redirecturl = request.GET.get('redirect')
                         try:
-                            print("yes")
                             return HttpResponseRedirect(os.getenv("HOSTNAME") + "/" + redirecturl)
                         except TypeError:
-                            print("no")
-                            print(redirecturl)
                             return HttpResponseRedirect(os.getenv("HOSTNAME"))
-                    else:
-                        print("Go away")
             elif request.method == "GET":
                 redirecturl = request.GET.get('redirect')
                 form = AuthForm()
