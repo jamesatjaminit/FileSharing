@@ -1,7 +1,7 @@
 {% include "header.html" %}
     <div class="container">
         <div class="jumbotron">
-            <form action="" method="post">{% csrf_token %}
+            <form action="?redirect={{redirecturl}}" method="post">{% csrf_token %}
                 {{form.as_p}}<br>
                 <input type="submit" value="Submit" class="btn btn-primary">
             </form>

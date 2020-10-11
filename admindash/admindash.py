@@ -16,7 +16,10 @@ def index(request):
         numOfFiles = len(File.objects.all())
         numOfText = len(File.objects.filter(type="text"))
         return(render(request, "adminindex.html", {"hostname": os.getenv("HOSTNAME"), "request":request, "numOfFiles": numOfFiles, "numOfText":numOfText}))
-
+    elif not request.user.is_authenticated:
+        return HttpResponseRedirect(os.getenv("HOSTNAME") + "/files/login?redirect=dash")
+    else:
+        return(HttpResponse(status=404))
 def text(request):
     if request.user.is_staff:
         result = File.objects.all()
@@ -26,9 +29,9 @@ def text(request):
         # result[0].description
         return render(request, "textadmin.html", {"entries": result, 'page_obj': page_obj, "hostname": os.getenv("HOSTNAME"), "request":request})
     elif not request.user.is_authenticated:
-        return HttpResponseRedirect(os.getenv("HOSTNAME") + "/files/login")
+        return HttpResponseRedirect(os.getenv("HOSTNAME") + "/files/login?redirect=dash")
     else:
-        return HttpResponseRedirect(os.getenv("HOSTNAME") + "/files/")
+        return(HttpResponse(status=404))
 def deletetext(request):
     if request.user.is_staff:
         fieldid = request.GET.get('id')
@@ -40,10 +43,12 @@ def deletetext(request):
         except Files.models.File.DoesNotExist:
             return(HttpResponse("Could not find item matching id in database"))
         try:
-            os.remove(os.getenv("BASE_PATH") + "files\\" + object.name)
+            os.remove(os.getenv("BASE_PATH") + r"Files\Uploads\\" + object.name)
         except FileNotFoundError:
             object.delete()
             
             return(HttpResponse("Couldn't delete file on disk, deleted database entry"))
         object.delete()
         return(HttpResponse("Successfully deleted file!"))
+    else:
+        return(HttpResponse(status=404))
