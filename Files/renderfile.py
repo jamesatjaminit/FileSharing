@@ -1,8 +1,11 @@
 import os
 
-from django.http import HttpResponse, HttpResponseNotFound, HttpResponseRedirect
+from django.http import (HttpResponse, HttpResponseNotFound,
+                         HttpResponseRedirect)
 from django.shortcuts import render
+
 from Files.models import File
+
 
 def renderFile(request, filename):
     file = File.objects.filter(name=filename)

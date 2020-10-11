@@ -11,6 +11,8 @@ from django.views.decorators.csrf import csrf_protect
 
 import Files
 from Files.models import File
+
+
 def index(request):
     if request.user.is_staff:
         numOfFiles = len(File.objects.all())

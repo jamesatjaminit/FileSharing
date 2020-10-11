@@ -46,6 +46,9 @@ def main(request):
                             return HttpResponseRedirect(os.getenv("HOSTNAME") + "/" + redirecturl)
                         except TypeError:
                             return HttpResponseRedirect(os.getenv("HOSTNAME"))
+                    else:
+                        redirecturl = ''
+                        errormessage = "The username or password you entered is incorrect."
             elif request.method == "GET":
                 redirecturl = request.GET.get('redirect')
                 errorcode = request.GET.get('errorcode')
@@ -55,6 +58,7 @@ def main(request):
                     errormessage = "That is a private paste, if you have access, please login."
                 else:
                     errormessage = ""
+                
                 form = AuthForm()
-            return render(request, "auth.html", {"form": form, "hostname": os.getenv("HOSTNAME"), "request":request, 'redirecturl':redirecturl, 'errormessage':errormessage})
+            return render(request, "login.html", {"form": form, "hostname": os.getenv("HOSTNAME"), "request":request, 'redirecturl':redirecturl, 'errormessage':errormessage})
             
