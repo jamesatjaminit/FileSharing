@@ -39,7 +39,16 @@ class TextForm(forms.Form):
         label="Description",
         required=True,
     )
-
+    visibilitychoices = ( 
+    ("private", "Private"), 
+    ("unlisted", "Unlisted"),
+    ) 
+    visibility = forms.ChoiceField(
+        widget=forms.Select(attrs={"class": "form-control"}),
+        choices=visibilitychoices, 
+        label="Visibility",
+        required=True,
+    )
 
 def main(request):
     if request.method == "POST":
@@ -59,6 +68,7 @@ def main(request):
                     location=BaseName + filename,
                     description=form.data["description"],
                     belongsto=request.user.id,
+                    visibility=form.data["visibility"],
                 )
             else:
                 fileDB = File(
@@ -67,8 +77,12 @@ def main(request):
                     location=BaseName + filename,
                     description=form.data["description"],
                 )
+            if not request.user.is_authenticated:
+                errorcode = "1"
+            else:
+                errorcode = ""
             fileDB.save()
-            return HttpResponseRedirect("/files/f/" + filename)
+            return(HttpResponseRedirect("/files/f/" + filename + "&errorcode=" + errorcode))
         else:
             print(form._errors)
     elif request.method == "GET":
