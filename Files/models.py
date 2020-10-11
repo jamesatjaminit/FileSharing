@@ -4,6 +4,7 @@ from django.db import models
 # Create your models here.
 class File(models.Model):
     id = models.AutoField(primary_key=True)
+    type = models.CharField(max_length=100, default="text")
     name = models.CharField(max_length=100)
     location = models.CharField(max_length=200)
     belongsto = models.IntegerField(default=0)

@@ -11,7 +11,11 @@ from django.views.decorators.csrf import csrf_protect
 
 import Files
 from Files.models import File
-
+def index(request):
+    if request.user.is_staff:
+        numOfFiles = len(File.objects.all())
+        numOfText = len(File.objects.filter(type="text"))
+        return(render(request, "adminindex.html", {"hostname": os.getenv("HOSTNAME"), "request":request, "numOfFiles": numOfFiles, "numOfText":numOfText}))
 
 def text(request):
     if request.user.is_staff:
@@ -20,7 +24,7 @@ def text(request):
         page_number = request.GET.get('page')
         page_obj = paginator.get_page(page_number)
         # result[0].description
-        return render(request, "textadmin.html", {"entries": result, 'page_obj': page_obj, "hostname": os.getenv("HOSTNAME")})
+        return render(request, "textadmin.html", {"entries": result, 'page_obj': page_obj, "hostname": os.getenv("HOSTNAME"), "request":request})
     elif not request.user.is_authenticated:
         return HttpResponseRedirect(os.getenv("HOSTNAME") + "/files/login")
     else:

@@ -55,6 +55,7 @@ def main(request):
             if request.user.is_authenticated:
                 fileDB = File(
                     name=filename,
+                    type="text",
                     location=BaseName + filename,
                     description=form.data["description"],
                     belongsto=request.user.id,
@@ -62,6 +63,7 @@ def main(request):
             else:
                 fileDB = File(
                     name=filename,
+                    type="text",
                     location=BaseName + filename,
                     description=form.data["description"],
                 )
