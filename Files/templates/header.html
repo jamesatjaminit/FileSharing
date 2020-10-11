@@ -15,8 +15,28 @@
         integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous">
     </script>
     
-    <nav class="navbar navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <a class="navbar-brand" href="{{hostname}}/files">JamInIT</a>
-        <a href="{{hostname}}/files/dashboard">Dashboard</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ml-auto">
+                {% if request.user.is_authenticated %}
+                <li class="nav-item">
+                <a class="nav-link" href="{{hostname}}/files/dashboard">Dashboard</a>
+                </li>
+                <li class="nav-item">
+                <a class="nav-link" href="{{hostname}}/files/logout">Logout</a>
+                </li>
+                {% else %}
+                <li class="nav-item">
+                <a class="nav-link" href="{{hostname}}/files/login">Login</a>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
+        
+            
     </nav><br>
 </head>

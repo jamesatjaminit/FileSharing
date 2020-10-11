@@ -19,6 +19,6 @@ def main(request):
         page_number = request.GET.get('page')
         page_obj = paginator.get_page(page_number)
         # result[0].description
-        return render(request, "dashboard.html", {"entries": result, 'page_obj': page_obj, "hostname": os.getenv("HOSTNAME")})
+        return render(request, "dashboard.html", {"entries": result, 'page_obj': page_obj, "hostname": os.getenv("HOSTNAME"), "request":request})
     else:
         return HttpResponseRedirect(os.getenv("HOSTNAME") + "/files/login")

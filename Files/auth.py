@@ -40,6 +40,6 @@ def main(request):
                         print("Go away")
             elif request.method == "GET":
                 form = AuthForm()
-            return render(request, "auth.html", {"form": form, "hostname": os.getenv("HOSTNAME")})
+            return render(request, "auth.html", {"form": form, "hostname": os.getenv("HOSTNAME"), "request":request})
         else:
             return HttpResponseRedirect(os.getenv("HOSTNAME") + "/files/dashboard")
