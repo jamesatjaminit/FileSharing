@@ -22,7 +22,7 @@ def randomstring():
     return random_string
 
 
-class TextForm(forms.Form):
+class TextForm(forms.Form): # Text upload form
     text = forms.CharField(
         widget=forms.Textarea(
             attrs={"class": "form-control", "rows": "5", "cols": "100"}
@@ -48,17 +48,17 @@ class TextForm(forms.Form):
 
 
 def main(request):
-    if request.method == "POST":
-        form = TextForm(request.POST)
-        if form.is_valid:
-            filename = randomstring()
-            baseName = "Files/Uploads/"
-            while path.exists(baseName + filename):
+    if request.method == "POST": # Checks if the form is being submitted
+        form = TextForm(request.POST) # Gets the form data
+        if form.is_valid: # Checks if its valid
+            filename = randomstring() # Gets a random string
+            baseName = "Uploads/"
+            while path.exists(baseName + filename): # Makes sure the file doesn't already exist
                 filename = randomstring()
-            tempFile = open(baseName + filename, "w")
-            tempFile.write(form.data["text"])
-            tempFile.close()
-            if request.user.is_authenticated:
+            tempFile = open(baseName + filename, "w") # Opens the file
+            tempFile.write(form.data["text"]) # Writes the text to the file
+            tempFile.close() # Closes the file
+            if request.user.is_authenticated: # If the user is authenticated also save the user id to the database for the dashboard
                 fileDB = File(
                     name=filename,
                     type="text",
@@ -67,21 +67,21 @@ def main(request):
                     belongsto=request.user.id,
                     visibility=form.data["visibility"],
                 )
-            else:
+            else: # If not don't save the userid
                 fileDB = File(
                     name=filename,
                     type="text",
                     location=baseName + filename,
                     description=form.data["description"],
                 )
-            if not request.user.is_authenticated:
-                errorCode = "1"
-            else:
+            if not request.user.is_authenticated: # If the user isn't implemented tell the user that their paste was made public
+                errorCode = "1" # TODO: Implement error code on file rendering page and check if private was selected
+            else: # If they are leave it
                 errorCode = ""
-            fileDB.save()
-            return HttpResponseRedirect("/files/f/" + filename + "&errorCode=" + errorCode)
+            fileDB.save() # Save the database entry
+            return HttpResponseRedirect("/files/f/" + filename + "&errorCode=" + errorCode) # Redirect to paste
         else:
-            print(form._errors)
-    elif request.method == "GET":
+            print(form._errors) # TODO: Display form errors
+    elif request.method == "GET": # If the request is GET simply render the form
         form = TextForm()
-    return render(request, "text.html", {"form": form, "hostname": os.getenv("HOSTNAME"), "request": request})
+    return render(request, "text.html", {"form": form, "hostname": os.getenv("HOSTNAME"), "request": request}) # Render the page

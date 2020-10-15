@@ -3,10 +3,10 @@ from django.db import models
 
 # Create your models here.
 class File(models.Model):
-    id = models.AutoField(primary_key=True)
-    type = models.CharField(max_length=100, default="text")
-    name = models.CharField(max_length=100)
-    location = models.CharField(max_length=200)
-    belongsto = models.IntegerField(default=0)
-    visibility = models.CharField(max_length=100, default="private")
-    description = models.CharField(max_length=200, default="N/A")
+    id = models.AutoField(primary_key=True) # Id of paste, autoincrements
+    type = models.CharField(max_length=100, default="text") # Type of paste, either file upload or text
+    name = models.CharField(max_length=100) # Name of paste
+    location = models.CharField(max_length=200) # Path of paste
+    belongsto = models.IntegerField(default=0) # Userid of user who created the paste, 0 if un authenticated
+    visibility = models.CharField(max_length=100, default="private") # Private or unlisted pastes
+    description = models.CharField(max_length=200, default="N/A") # Description of file, displayed on dashboard
