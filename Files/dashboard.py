@@ -1,13 +1,8 @@
 import os
 
-import django.http
-from django import forms
 from django.core.paginator import Paginator
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
-from django.template import RequestContext
-from django.template.loader import render_to_string
-from django.views.decorators.csrf import csrf_protect
 
 from Files.models import File
 
@@ -19,6 +14,7 @@ def main(request):
         page_number = request.GET.get('page')
         page_obj = paginator.get_page(page_number)
         # result[0].description
-        return render(request, "dashboard.html", {"entries": result, 'page_obj': page_obj, "hostname": os.getenv("HOSTNAME"), "request":request})
+        return render(request, "dashboard.html",
+                      {"entries": result, 'page_obj': page_obj, "hostname": os.getenv("HOSTNAME"), "request": request})
     else:
         return HttpResponseRedirect(os.getenv("HOSTNAME") + "/files/login?redirect=files/dashboard&errorcode=0")

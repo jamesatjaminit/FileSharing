@@ -2,13 +2,9 @@ import os.path
 import random
 from os import path
 
-import django.http
 from django import forms
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
-from django.template import RequestContext
-from django.template.loader import render_to_string
-from django.views.decorators.csrf import csrf_protect
 
 from Files.models import File
 
@@ -39,33 +35,34 @@ class TextForm(forms.Form):
         label="Description",
         required=True,
     )
-    visibilitychoices = ( 
-    ("private", "Private"), 
-    ("unlisted", "Unlisted"),
-    ) 
+    visibilityChoices = (
+        ("private", "Private"),
+        ("unlisted", "Unlisted"),
+    )
     visibility = forms.ChoiceField(
         widget=forms.Select(attrs={"class": "form-control"}),
-        choices=visibilitychoices, 
+        choices=visibilityChoices,
         label="Visibility",
         required=True,
     )
+
 
 def main(request):
     if request.method == "POST":
         form = TextForm(request.POST)
         if form.is_valid:
             filename = randomstring()
-            BaseName = "Files/Uploads/"
-            while path.exists(BaseName + filename):
+            baseName = "Files/Uploads/"
+            while path.exists(baseName + filename):
                 filename = randomstring()
-            tempfile = open(BaseName + filename, "w")
-            tempfile.write(form.data["text"])
-            tempfile.close()
+            tempFile = open(baseName + filename, "w")
+            tempFile.write(form.data["text"])
+            tempFile.close()
             if request.user.is_authenticated:
                 fileDB = File(
                     name=filename,
                     type="text",
-                    location=BaseName + filename,
+                    location=baseName + filename,
                     description=form.data["description"],
                     belongsto=request.user.id,
                     visibility=form.data["visibility"],
@@ -74,17 +71,17 @@ def main(request):
                 fileDB = File(
                     name=filename,
                     type="text",
-                    location=BaseName + filename,
+                    location=baseName + filename,
                     description=form.data["description"],
                 )
             if not request.user.is_authenticated:
-                errorcode = "1"
+                errorCode = "1"
             else:
-                errorcode = ""
+                errorCode = ""
             fileDB.save()
-            return(HttpResponseRedirect("/files/f/" + filename + "&errorcode=" + errorcode))
+            return HttpResponseRedirect("/files/f/" + filename + "&errorCode=" + errorCode)
         else:
             print(form._errors)
     elif request.method == "GET":
         form = TextForm()
-    return render(request, "text.html", {"form": form, "hostname": os.getenv("HOSTNAME"), "request":request})
+    return render(request, "text.html", {"form": form, "hostname": os.getenv("HOSTNAME"), "request": request})

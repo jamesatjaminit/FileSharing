@@ -1,4 +1,3 @@
-from django.http import HttpResponse
 from django.shortcuts import render
 
 import Files.auth
@@ -22,6 +21,7 @@ def dashboard(request):
 
 def auth(request):
     return Files.auth.main(request)
+
 
 def forbidden(request):
     return render(request, "forbidden.html")

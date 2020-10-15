@@ -3,7 +3,7 @@ import os
 from django import forms
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect
-from django.shortcuts import redirect, render
+from django.shortcuts import render
 
 
 class AuthForm(forms.Form):
@@ -25,9 +25,9 @@ def main(request):
         return HttpResponseRedirect(os.getenv("HOSTNAME") + "/files/dashboard")
     else:
         if request.user.is_authenticated:
-            redirecturl = request.GET.get('redirect')
+            redirectUrl = request.GET.get('redirect')
             try:
-                return HttpResponseRedirect(os.getenv("HOSTNAME") + "/" + redirecturl)
+                return HttpResponseRedirect(os.getenv("HOSTNAME") + "/" + redirectUrl)
             except TypeError:
                 return HttpResponseRedirect(os.getenv("HOSTNAME"))
         else:
@@ -41,16 +41,16 @@ def main(request):
                     )
                     if user is not None:
                         login(request, user)
-                        redirecturl = request.GET.get('redirect')
+                        redirectUrl = request.GET.get('redirect')
                         try:
-                            return HttpResponseRedirect(os.getenv("HOSTNAME") + "/" + redirecturl)
+                            return HttpResponseRedirect(os.getenv("HOSTNAME") + "/" + redirectUrl)
                         except TypeError:
                             return HttpResponseRedirect(os.getenv("HOSTNAME"))
                     else:
-                        redirecturl = ''
+                        redirectUrl = ''
                         errormessage = "The username or password you entered is incorrect."
             elif request.method == "GET":
-                redirecturl = request.GET.get('redirect')
+                redirectUrl = request.GET.get('redirect')
                 errorcode = request.GET.get('errorcode')
                 if errorcode == "0":
                     errormessage = "You need to be authenticated to view that page, please login."
@@ -58,7 +58,7 @@ def main(request):
                     errormessage = "That is a private paste, if you have access, please login."
                 else:
                     errormessage = ""
-                
+
                 form = AuthForm()
-            return render(request, "login.html", {"form": form, "hostname": os.getenv("HOSTNAME"), "request":request, 'redirecturl':redirecturl, 'errormessage':errormessage})
-            
+            return render(request, "login.html", {"form": form, "hostname": os.getenv("HOSTNAME"), "request": request,
+                                                  'redirectUrl': redirectUrl, 'errormessage': errormessage})

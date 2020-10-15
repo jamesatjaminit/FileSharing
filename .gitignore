@@ -141,7 +141,7 @@ cython_debug/
 Uploads/
 
 # Other stuff
-migrations/
-.env
+migrations
 .idea/dataSources.xml
 .idea/dataSources/
+.idea/dataSources.local.xml
