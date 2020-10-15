@@ -143,3 +143,5 @@ Uploads/
 # Other stuff
 migrations/
 .env
+.idea/dataSources.xml
+.idea/dataSources/
