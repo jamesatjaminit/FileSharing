@@ -8,13 +8,15 @@ from Files.models import File
 
 
 def renderFile(request, filename):
-    file = File.objects.filter(name=filename) # Gets the file from the db
+    filenamestripped = str(filename).strip('?')
+    file = File.objects.filter(name=filenamestripped) # Gets the file from the db
     errorCode = request.GET.get('errorCode') # Gets the error code if any
     if errorCode == "1": # Happens when user is authenticated but wants a private paste
         errormessage = "You asked us to make a private paste, but since you're not logged in, we had to make it " \
                        "unlisted "
     else:
         errormessage = ""
+    # TODO: Check if file belongs to user 0 even if it is private, because an unauthed user must have tried to make a private paste
     if file[0].visibility == 'private': # If the paste is private we need to make some more checks
         if request.user.is_authenticated: # Check if they are logged into and account
             if file[0].belongsto == request.user.id or request.user.is_staff: # Checks if the user is the owner of the file OR staff

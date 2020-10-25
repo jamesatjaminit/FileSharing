@@ -52,7 +52,7 @@ def main(request):
         form = TextForm(request.POST) # Gets the form data
         if form.is_valid: # Checks if its valid
             filename = randomstring() # Gets a random string
-            baseName = "Uploads/"
+            baseName = "Files/Uploads/"
             while path.exists(baseName + filename): # Makes sure the file doesn't already exist
                 filename = randomstring()
             tempFile = open(baseName + filename, "w") # Opens the file
@@ -79,7 +79,7 @@ def main(request):
             else: # If they are leave it
                 errorCode = ""
             fileDB.save() # Save the database entry
-            return HttpResponseRedirect("/files/f/" + filename + "&errorCode=" + errorCode) # Redirect to paste
+            return HttpResponseRedirect("/files/f/" + filename + "?errorCode=" + errorCode) # Redirect to paste
         else:
             print(form._errors) # TODO: Display form errors
     elif request.method == "GET": # If the request is GET simply render the form
