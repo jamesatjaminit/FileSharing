@@ -8,8 +8,7 @@ from Files.models import File
 
 
 def renderFile(request, filename):
-    filenamestripped = str(filename).strip('?')
-    file = File.objects.filter(name=filenamestripped) # Gets the file from the db
+    file = File.objects.filter(name=filename) # Gets the file from the db
     errorCode = request.GET.get('errorCode') # Gets the error code if any
     if errorCode == "1": # Happens when user is authenticated but wants a private paste
         errormessage = "You asked us to make a private paste, but since you're not logged in, we had to make it " \
