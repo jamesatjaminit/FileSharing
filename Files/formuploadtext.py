@@ -75,13 +75,11 @@ def main(request):
                     description=form.data["description"],
                 )
             if not request.user.is_authenticated: # If the user isn't implemented tell the user that their paste was made public
-                errorCode = "1" # TODO: Implement error code on file rendering page and check if private was selected
+                errorCode = "1"
             else: # If they are leave it
                 errorCode = ""
             fileDB.save() # Save the database entry
             return HttpResponseRedirect("/files/f/" + filename + "?errorCode=" + errorCode) # Redirect to paste
-        else:
-            print(form._errors) # TODO: Display form errors
     elif request.method == "GET": # If the request is GET simply render the form
         form = TextForm()
     return render(request, "text.html", {"form": form, "hostname": os.getenv("HOSTNAME"), "request": request}) # Render the page
