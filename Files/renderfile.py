@@ -15,9 +15,8 @@ def renderFile(request, filename):
                        "unlisted "
     else:
         errormessage = ""
-    # TODO: Check if file belongs to user 0 even if it is private, because an unauthed user must have tried to make a private paste
     if file[0].visibility == 'private': # If the paste is private we need to make some more checks
-        if not file[0].belongsto == 0:
+        if not file[0].belongsto == 0: # Checks if the file belongs to user id 0 which is an unauthed user
             if request.user.is_authenticated: # Check if they are logged into and account
                 if file[0].belongsto == request.user.id or request.user.is_staff: # Checks if the user is the owner of the file OR staff
                     if not file[0].belongsto == request.user.id and request.user.is_staff: # If the it doesn't belong to the user but they are staff
