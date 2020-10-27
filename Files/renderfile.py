@@ -11,12 +11,12 @@ def error404(request): # Returns 404 page
     return render(request, "404.html", {"hostname": os.getenv("HOSTNAME"), "request": request})
 
 
-def renderText(filename, request, errormessage):
+def renderText(filename, request, errormessage, viewBecauseStaff):
     try:
         text = open(os.getenv("BASE_PATH") + r"Files\Uploads\\" + filename)
         return render(request, "rendertext.html",
                       {"text": text.read(), "hostname": os.getenv("HOSTNAME"), "request": request,
-                       "errormessage": errormessage})
+                       "errormessage": errormessage, 'viewBecauseStaff': viewBecauseStaff})
     except FileNotFoundError:
         return error404(request)
 
@@ -39,14 +39,14 @@ def renderFile(request, filename):
                         viewBecauseStaff = True
                     else:
                         viewBecauseStaff = False
-                    return renderText(filename, request, errormessage)
+                    return renderText(filename, request, errormessage, viewBecauseStaff)
                 else:
                     return render(request, "forbidden.html", status=403)  # Redirect user as they don't have access
             else:
                 return (HttpResponseRedirect(os.getenv(
                     "HOSTNAME") + "/files/login?redirect=files/f/" + filename + "&errorcode=1"))  # User isn't logged in, redirect them to the login page
     elif file[0].visibility == 'unlisted': # Unlisted file, anyone can access with link
-        return renderText(filename, request, errormessage)
+        return renderText(filename, request, errormessage, viewBecauseStaff=False)
     else: # If the visibility for some reason is different simply 404 error and log the error
         print('Visibility not unlisted or private')
         return error404(request)
