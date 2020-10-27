@@ -18,6 +18,13 @@
           {% csrf_token %} {{form.as_p}}<br />
           <input type="submit" value="Submit" class="btn btn-primary" />
         </form>
+        {% if not request.user.is_authenticated %}
+          <script>
+            document.getElementById("id_visibility").getElementsByTagName('option')[1].selected = true;
+            document.getElementById("id_visibility").getElementsByTagName('option')[0].disabled = true;
+            document.getElementById("id_visibility").getElementsByTagName('option')[0].innerHTML = document.getElementById("id_visibility").getElementsByTagName('option')[0].innerHTML + " - Private pastes can only be made when logged in"
+          </script>
+        {% endif %}
       </div>
     </div>
   </body>

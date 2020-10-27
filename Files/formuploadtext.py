@@ -74,12 +74,11 @@ def main(request):
                     location=baseName + filename,
                     description=form.data["description"],
                 )
-            if not request.user.is_authenticated: # If the user isn't implemented tell the user that their paste was made public
-                errorCode = "1"
+            fileDB.save()  # Save the database entry
+            if not request.user.is_authenticated and form.data['visibility'] == 'private': # If the user isn't implemented tell the user that their paste was made public
+                return HttpResponseRedirect("/files/f/" + filename + "?errorCode=1")
             else: # If they are leave it
-                errorCode = ""
-            fileDB.save() # Save the database entry
-            return HttpResponseRedirect("/files/f/" + filename + "?errorCode=" + errorCode) # Redirect to paste
+                return HttpResponseRedirect("/files/f/" + filename)
     elif request.method == "GET": # If the request is GET simply render the form
         form = TextForm()
     return render(request, "text.html", {"form": form, "hostname": os.getenv("HOSTNAME"), "request": request}) # Render the page
