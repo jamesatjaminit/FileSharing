@@ -73,6 +73,7 @@ def main(request):
                     type="text",
                     location=baseName + filename,
                     description=form.data["description"],
+                    visibility='unlisted',
                 )
             fileDB.save()  # Save the database entry
             if not request.user.is_authenticated and form.data['visibility'] == 'private': # If the user isn't implemented tell the user that their paste was made public

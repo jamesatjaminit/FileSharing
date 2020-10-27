@@ -49,4 +49,4 @@ def renderFile(request, filename):
         return renderText(filename, request, errormessage)
     else: # If the visibility for some reason is different simply 404 error and log the error
         print('Visibility not unlisted or private')
-        error404(request)
+        return error404(request)
