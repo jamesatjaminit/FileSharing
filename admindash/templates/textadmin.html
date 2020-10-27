@@ -1,6 +1,11 @@
 {% include "headeradmin.html" %}
     <body>
         <div class="container">
+            {% if deleted == "1" %}
+            <div class="alert alert-success" role="alert">
+                Successfully deleted paste
+            </div>
+            {% endif %}
             {% for field in page_obj %}
             <div class="jumbotron">
                 <p>ID: {{field.id}}</p>
@@ -9,7 +14,7 @@
                 <p>Belongs to: {{field.belongsto}} (<a href="{{hostname}}/admin/auth/user/{{field.belongsto}}">User Lookup</a>)</p>
                 <p>Visibilty: {{field.visibility}}</p>
                 <p>Link: <a href="/files/f/{{field.name}}">{{hostname}}/files/f/{{field.name}}</a></p>
-                <p><a href="/dash/deletetext?id={{field.id}}" onclick="return confirm('Are you sure you want to delete the paste with id: {{field.id}}')">DELETE PASTE</a></p>
+                <p><a href="/dash/deletetext?id={{field.id}}&redirectpage={{page_obj.number}}" onclick="return confirm('Are you sure you want to delete the paste with id: {{field.id}}')">DELETE PASTE</a></p>
             </div>
             {% endfor %}
             <div class="pagination">

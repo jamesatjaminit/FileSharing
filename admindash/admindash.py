@@ -28,8 +28,9 @@ def text(request): # Gets all the text uploads
         page_number = request.GET.get('page')
         page_obj = paginator.get_page(page_number)
         # result[0].description
+        deleted = request.GET.get('deleted')
         return render(request, "textadmin.html",
-                      {"entries": result, 'page_obj': page_obj, "hostname": os.getenv("HOSTNAME"), "request": request}) # Render page
+                      {"entries": result, 'page_obj': page_obj, "hostname": os.getenv("HOSTNAME"), "request": request, "deleted": deleted}) # Render page
     elif not request.user.is_authenticated: # If the user is authenticated but not staff
         return HttpResponseRedirect(os.getenv("HOSTNAME") + "/files/login?redirect=dash&errorcode=0")
     else:
@@ -51,6 +52,10 @@ def deletetext(request): # Deleted pastes by id
             object.delete() # Still delete the database entry
             return HttpResponse("Couldn't delete file on disk, deleted database entry") # Return error
         object.delete() # Delete database entry
-        return HttpResponse("Successfully deleted file!") # Return message
+        redirectpage = request.GET.get('redirectpage')
+        if not redirectpage == '':
+            return HttpResponseRedirect(os.getenv('HOSTNAME') + '/dash/text?page=' + redirectpage + '&deleted=1')
+        else:
+            return HttpResponseRedirect(os.getenv('HOSTNAME') + '/dash/text?deleted=1')
     else:
         return HttpResponse(status=404) # If the user isn't staff display a 404 page
