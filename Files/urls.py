@@ -8,5 +8,4 @@ urlpatterns = [
     path("dashboard", views.dashboard, name="Dashboard"),
     path("login", views.auth, name="Login"),
     path("logout", views.auth, name="Logout"),
-    path("forbidden", views.forbidden, name="Forbidden")
 ]

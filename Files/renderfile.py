@@ -9,7 +9,7 @@ from Files.models import File
 
 def renderFile(request, filename):
     file = File.objects.filter(name=filename) # Gets the file from the db
-    errorCode = request.GET.get('errorCode') # Gets the error code if any
+    errorCode = request.GET.get('errorcode') # Gets the error code if any
     if errorCode == "1": # Happens when user is authenticated but wants a private paste
         errormessage = "You asked us to make a private paste, but since you're not logged in, we had to make it " \
                        "unlisted "
@@ -32,11 +32,10 @@ def renderFile(request, filename):
                     except FileNotFoundError:
                         return HttpResponseNotFound("Whoops, we can't find that file")
                 else:
-                    return (HttpResponseRedirect(
-                        os.getenv("HOSTNAME") + "/files/forbidden?errorCode=1"))  # Redirect user as they don't have access
+                    return render(request, "forbidden.html", status=404)  # Redirect user as they don't have access
             else:
                 return (HttpResponseRedirect(os.getenv(
-                    "HOSTNAME") + "/files/login?redirect=files/f/" + filename + "&errorCode=1"))  # User isn't logged in, redirect them to the login page
+                    "HOSTNAME") + "/files/login?redirect=files/f/" + filename + "&errorcode=1"))  # User isn't logged in, redirect them to the login page
     try:
         text = open(os.getenv("BASE_PATH") + r"Files\Uploads\\" + filename)
         return render(request, "rendertext.html",
