@@ -36,8 +36,8 @@ class TextForm(forms.Form): # Text upload form
         required=True,
     )
     visibilityChoices = (
-        ("private", "Private"),
         ("unlisted", "Unlisted"),
+        ("private", "Private"),
     )
     visibility = forms.ChoiceField(
         widget=forms.Select(attrs={"class": "form-control"}),
