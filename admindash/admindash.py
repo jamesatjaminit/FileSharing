@@ -23,7 +23,7 @@ def index(request): # Index of admin dash, displays basic stats
 
 def text(request): # Gets all the text uploads
     if request.user.is_staff: # Makes sure the user is staff
-        result = File.objects.all() # Gets all the files, TODO: filter just text for when files are implemented
+        result = File.objects.filter(type="text") # Gets all the files
         paginator = Paginator(result, 5) # Pageinate
         page_number = request.GET.get('page')
         page_obj = paginator.get_page(page_number)
