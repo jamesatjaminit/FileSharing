@@ -7,7 +7,7 @@ from django.shortcuts import render
 from Files.models import File
 
 
-def main(request):
+def dash(request):
     if request.user.is_authenticated: # Makes sure they are logged in
         result = File.objects.filter(belongsto=request.user.id) # Gets all the files owned by the user id
         paginator = Paginator(result, 3) # Paginates by 3

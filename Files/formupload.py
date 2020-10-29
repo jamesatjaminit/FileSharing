@@ -47,7 +47,7 @@ class TextForm(forms.Form): # Text upload form
     )
 
 
-def main(request):
+def uploadText(request):
     if request.method == "POST": # Checks if the form is being submitted
         form = TextForm(request.POST) # Gets the form data
         if form.is_valid: # Checks if its valid

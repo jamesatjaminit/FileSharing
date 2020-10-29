@@ -2,13 +2,13 @@ from django.shortcuts import render
 
 import Files.auth
 import Files.dashboard
-import Files.formuploadtext
+import Files.formupload
 import Files.renderfile
 
 
 # Create your views here.
 def index(request):
-    return Files.formuploadtext.main(request)
+    return Files.formupload.uploadText(request)
 
 
 def File(request, filename):
@@ -16,8 +16,12 @@ def File(request, filename):
 
 
 def dashboard(request):
-    return Files.dashboard.main(request)
+    return Files.dashboard.dash(request)
 
 
 def auth(request):
-    return Files.auth.main(request)
+    return Files.auth.loginUser(request)
+
+
+def logout(request):
+    return Files.auth.logoutUser(request)
