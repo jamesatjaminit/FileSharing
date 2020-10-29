@@ -17,7 +17,11 @@ class AuthForm(forms.Form): # Auth form
         label="Password",
         required=True,
     )
-
+    redirecturl = forms.CharField(
+        label="redirecturl",
+        required=False,
+        widget=forms.HiddenInput(),
+    )
 
 def main(request):
     if request.path == "/files/logout":
@@ -41,7 +45,7 @@ def main(request):
                     )
                     if user is not None: # If they username and password is correct
                         login(request, user) # Log in the user
-                        redirectUrl = request.GET.get('redirect') # Try to get the redirect url
+                        redirectUrl = form.data['redirecturl'] # Try to get the redirect url
                         try:
                             return HttpResponseRedirect(os.getenv("HOSTNAME") + "/" + redirectUrl) # Redirects to url
                         except TypeError:
@@ -50,7 +54,6 @@ def main(request):
                         redirectUrl = ''
                         errormessage = "The username or password you entered is incorrect." # Sets error message
             elif request.method == "GET":
-                redirectUrl = request.GET.get('redirect')
                 errorcode = request.GET.get('errorcode') # Gets error code querystring
                 if errorcode == "0": # Usually comes from dashboard when not logged in
                     errormessage = "You need to be authenticated to view that page, please login."
@@ -60,5 +63,4 @@ def main(request):
                     errormessage = ""
 
                 form = AuthForm() # Get form
-            return render(request, "login.html", {"form": form, "hostname": os.getenv("HOSTNAME"), "request": request,
-                                                  'redirectUrl': redirectUrl, 'errormessage': errormessage}) # Render page
+            return render(request, "login.html", {"form": form, "hostname": os.getenv("HOSTNAME"), "request": request, 'errormessage': errormessage}) # Render page
