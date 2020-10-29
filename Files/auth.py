@@ -23,6 +23,7 @@ class AuthForm(forms.Form): # Auth form
         widget=forms.HiddenInput(),
     )
 
+
 def main(request):
     if request.path == "/files/logout":
         logout(request) # Log out the user
@@ -63,4 +64,4 @@ def main(request):
                     errormessage = ""
 
                 form = AuthForm() # Get form
-            return render(request, "login.html", {"form": form, "hostname": os.getenv("HOSTNAME"), "request": request, 'errormessage': errormessage}) # Render page
+            return render(request, "auth.html", {"form": form, "hostname": os.getenv("HOSTNAME"), "request": request, 'errormessage': errormessage}) # Render page
