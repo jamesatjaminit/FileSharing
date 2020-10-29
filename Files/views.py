@@ -22,6 +22,5 @@ def dashboard(request):
 def auth(request):
     return Files.auth.loginUser(request)
 
-
 def logout(request):
     return Files.auth.logoutUser(request)

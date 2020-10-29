@@ -1,7 +1,6 @@
 import os
 
-from django.http import (HttpResponseNotFound,
-                         HttpResponseRedirect)
+from django.http import HttpResponseNotFound, HttpResponseRedirect
 from django.shortcuts import render
 
 from Files.models import File
@@ -45,7 +44,7 @@ def renderFile(request, filename):
                 else:
                     return render(request, "forbidden.html", status=403)  # Redirect user as they don't have access
             else:
-                return (HttpResponseRedirect(os.getenv("HOSTNAME") + "/files/login?redirect=files/f/" + filename + "&errorcode=1"))  # User isn't logged in, redirect them to the login page
+                return HttpResponseRedirect(os.getenv("HOSTNAME") + "/files/login?redirect=files/f/" + filename + "&errorcode=1")  # User isn't logged in, redirect them to the login page
     elif file[0].visibility == 'unlisted': # Unlisted file, anyone can access with link
         return renderText(filename, request, errormessage, False, description)
     else: # If the visibility for some reason is different simply 404 error and log the error
