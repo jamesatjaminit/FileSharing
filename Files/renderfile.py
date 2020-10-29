@@ -41,7 +41,7 @@ def renderFile(request, filename):
                         viewBecauseStaff = True
                     else:
                         viewBecauseStaff = False
-                    return renderText(filename, request, errormessage, viewBecauseStaff, description, showCopyUrl)
+                    return renderText(filename, request, errormessage, viewBecauseStaff, description)
                 else:
                     return render(request, "forbidden.html", status=403)  # Redirect user as they don't have access
             else:
